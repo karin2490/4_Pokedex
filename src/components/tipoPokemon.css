@@ -1,0 +1,25 @@
+.tipos{
+    padding-top: 0px;
+    text-transform: capitalize;
+    text-align: center;
+    text-decoration: underline;
+    margin: 0; 
+    flex-wrap: wrap;
+    justify-content: center ;
+    height: auto;
+  }
+  
+  .debilidades{
+    padding-top: 10px;
+    flex-wrap: wrap;
+          gap: 5px;
+          justify-content: space-around;
+          margin: 0;
+  }
+  
+  .items span {
+    position: relative;
+    left: -8px;
+    padding-left: 0px;
+  
+  }

@@ -7,6 +7,9 @@ import { Button } from "./button";
 import { LedDisplay } from "./led-display";
 
 import "./pokedex.css";
+import { Pokemon } from "models";
+import TipoPokemon from "./tipoPokemon";
+import EquipoPokemon from "./equipoPokemon";
 
 export function Pokedex() {
   const { theme } = useTheme();
@@ -15,6 +18,31 @@ export function Pokedex() {
   const [i, setI] = useState(0);
   const { pokemon: selectedPokemon } = usePokemon(pokemonList[i]);
   const { pokemon: nextPokemon } = usePokemon(pokemonList[i + 1]);
+  const [team, setTeam] = useState<Pokemon[]>([]);
+
+  const addToTeam = () => {
+    if (selectedPokemon && team.length < 6) {
+      // Verificar si el Pokemon seleccionado ya está en el equipo
+      const isDuplicate = team.some(pokemon => pokemon.id === selectedPokemon.id);
+  
+      if (!isDuplicate) {
+        setTeam([...team, selectedPokemon]);
+      } else {
+        alert("Este Pokémon ya está en tu equipo.");
+      }
+    } else {
+      alert(
+        "Has llegado al límite. Elimina un Pokémon para añadir uno nuevo a tu equipo."
+      );
+    }
+  };
+  
+
+  const removeFromTeam = (index: number) => {
+    const updatedTeam = [...team];
+    updatedTeam.splice(index, 1);
+    setTeam(updatedTeam);
+  };
 
   const prev = () => {
     resetTransition();
@@ -58,9 +86,12 @@ export function Pokedex() {
               ready && `ready--${randomMode()}`
             )}
           >
-            {selectedPokemon?.name}
-          </div>
-        </div>
+            {selectedPokemon?.name}           
+          </div>         
+        </div>        
+        <div>
+         {selectedPokemon && <TipoPokemon selectedPokemon={selectedPokemon} />}
+        </div>        
       </div>
       <div className="panel right-panel">
         <div className="controls leds">
@@ -85,6 +116,19 @@ export function Pokedex() {
         <div className="controls">
           <Button label="prev" onClick={prev} />
           <Button label="next" onClick={next} />
+        </div>
+        <div>
+        <h4>Agregar a equipo
+            <button className="addToTeam plusMinus" onClick={addToTeam}> +</button>
+            </h4>
+          </div>
+        <div className="equipo">
+          <h2>Creando mi equipo</h2>
+          <EquipoPokemon
+            team={team}
+            addToTeam={addToTeam}
+            removeFromTeam={removeFromTeam}
+          />
         </div>
       </div>
     </div>

@@ -10,3 +10,4 @@
 ```bash
 npm i && npm run dev
 ```
+# 4_Pokedex
